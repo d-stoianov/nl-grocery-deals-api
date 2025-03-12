@@ -1,27 +1,27 @@
 package dstoianov.nlgrocerydealsapi.model;
 
 public class GroceryOfferPrice {
-    private String now;
-    private String was;
+    private double now;
+    private double was;
 
-    public GroceryOfferPrice(String now, String was) {
+    public GroceryOfferPrice(double now, double was) {
         this.now = now;
         this.was = was;
     }
 
-    public String getNow() {
+    public double getNow() {
         return now;
     }
 
-    public String getWas() {
+    public double getWas() {
         return was;
     }
 
-    public void setNow(String now) {
+    public void setNow(double now) {
         this.now = now;
     }
 
-    public void setWas(String was) {
+    public void setWas(double was) {
         this.was = was;
     }
 }
