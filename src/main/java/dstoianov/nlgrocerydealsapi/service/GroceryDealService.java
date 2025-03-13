@@ -6,7 +6,7 @@ import dstoianov.nlgrocerydealsapi.model.GroceryOfferDate;
 import dstoianov.nlgrocerydealsapi.model.GroceryOfferPrice;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -17,8 +17,8 @@ public class GroceryDealService {
                 "lol.jpg",
                 new GroceryOfferPrice(12.0, 11.5),
                 new GroceryOfferDate(
-                        LocalDate.of(2022, 1, 2),
-                        LocalDate.of(2022, 1, 2)
+                        OffsetDateTime.parse("2025-03-12T23:00:00.000Z"),
+                        OffsetDateTime.parse("2025-03-14T23:00:00.000Z")
                 ));
 
         return List.of(new GroceryDealCategory(
