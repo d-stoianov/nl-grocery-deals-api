@@ -3,28 +3,43 @@ package dstoianov.nlgrocerydealsapi.controller;
 import dstoianov.nlgrocerydealsapi.model.GroceryDealCategory;
 import dstoianov.nlgrocerydealsapi.model.GroceryOffer;
 import dstoianov.nlgrocerydealsapi.model.StoreName;
-import dstoianov.nlgrocerydealsapi.service.GroceryDealService;
+import dstoianov.nlgrocerydealsapi.service.GroceryDealsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class GroceryDealController {
-    GroceryDealService groceryDealService;
+public class GroceryDealsController {
+    GroceryDealsService groceryDealsService;
 
     @Autowired
-    public GroceryDealController(GroceryDealService groceryDealService) {
-        this.groceryDealService = groceryDealService;
+    public GroceryDealsController(GroceryDealsService groceryDealsService) {
+        this.groceryDealsService = groceryDealsService;
     }
 
     @GetMapping("/deals")
-    public List<GroceryDealCategory> getGroceryDeal() {
-        return groceryDealService.getDeals();
+    public ResponseEntity<?> getDeals(@RequestParam(required = false) String store) {
+        try {
+            if (store != null && StoreName.fromString(store) == null) {
+                return ResponseEntity.badRequest().body("Invalid Store Name");
+            }
+
+            // if no store = get all deals, if store is valid = get store specific deals
+            if (store == null) {
+                return ResponseEntity.ok(groceryDealsService.getDeals());
+            }
+
+            return ResponseEntity.ok(groceryDealsService.getDeals(StoreName.fromString(store)));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving deals");
+        }
     }
 
-    @PostMapping("/deal")
+    @PostMapping("/deals")
     public ResponseEntity<String> createGroceryDeal(
             @RequestParam(required = true) String store,
             @RequestBody List<GroceryDealCategory> categories
